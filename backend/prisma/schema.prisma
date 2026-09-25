@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Enquiry {
+  id        Int       @id @default(autoincrement())
+  fullName  String
+  email     String
+  phone     String
+  eventType String
+  eventDate DateTime?
+  guests    Int?
+  message   String?
+  status    String    @default("NEW")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([eventDate])
+  @@index([status])
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement())
+  fullName     String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("ADMIN")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model MenuCategory {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items MenuItem[]
+}
+
+model MenuItem {
+  id          Int      @id @default(autoincrement())
+  categoryId  Int
+  name        String
+  description String?
+  price       Decimal  @db.Decimal(10, 2)
+  imageUrl    String?
+  featured    Boolean  @default(false)
+  isAvailable Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  category MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([categoryId])
+  @@index([isAvailable])
+  @@index([featured])
+}
+
+model Event {
+  id          Int       @id @default(autoincrement())
+  title       String
+  slug        String    @unique
+  description String?
+  eventType   String
+  eventDate   DateTime
+  endDate     DateTime?
+  location    String?
+  capacity    Int?
+  imageUrl    String?
+  featured    Boolean   @default(false)
+  isPublished Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([eventDate])
+  @@index([eventType])
+  @@index([isPublished])
+  @@index([featured])
+}
+
+model GalleryImage {
+  id          Int      @id @default(autoincrement())
+  title       String?
+  description String?
+  imageUrl    String
+  category    String   @default("General")
+  featured    Boolean  @default(false)
+  isPublished Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([isPublished])
+  @@index([featured])
+  @@index([sortOrder])
+}
+
+model SiteSettings {
+  id             Int      @id @default(autoincrement())
+  businessName   String   @default("Etjanini")
+  tagline        String?
+  phone          String?
+  email          String?
+  whatsapp       String?
+  address        String?
+  city           String?
+  province       String?
+  country        String?
+  instagramUrl   String?
+  facebookUrl    String?
+  tiktokUrl      String?
+  mapsUrl        String?
+  bookingEmail   String?
+  mondayHours    String?
+  tuesdayHours   String?
+  wednesdayHours String?
+  thursdayHours  String?
+  fridayHours    String?
+  saturdayHours  String?
+  sundayHours    String?
+  isOpen         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+
+
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  name        String
+  rating      Int
+  comment     String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+  @@index([rating])
+  @@index([createdAt])
+}

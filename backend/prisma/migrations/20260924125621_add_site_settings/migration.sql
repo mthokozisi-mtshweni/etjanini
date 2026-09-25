@@ -1,0 +1,30 @@
+-- CreateTable
+CREATE TABLE "SiteSettings" (
+    "id" SERIAL NOT NULL,
+    "businessName" TEXT NOT NULL DEFAULT 'Etjanini',
+    "tagline" TEXT,
+    "phone" TEXT,
+    "email" TEXT,
+    "whatsapp" TEXT,
+    "address" TEXT,
+    "city" TEXT,
+    "province" TEXT,
+    "country" TEXT,
+    "instagramUrl" TEXT,
+    "facebookUrl" TEXT,
+    "tiktokUrl" TEXT,
+    "mapsUrl" TEXT,
+    "bookingEmail" TEXT,
+    "mondayHours" TEXT,
+    "tuesdayHours" TEXT,
+    "wednesdayHours" TEXT,
+    "thursdayHours" TEXT,
+    "fridayHours" TEXT,
+    "saturdayHours" TEXT,
+    "sundayHours" TEXT,
+    "isOpen" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "SiteSettings_pkey" PRIMARY KEY ("id")
+);

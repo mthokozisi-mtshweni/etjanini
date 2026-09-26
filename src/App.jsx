@@ -138,7 +138,7 @@ function PublicWebsite() {
   onClick={closeMenu}
 >
   <img
-    src="public\logo2.webp"
+    src="/logo2.webp"
     alt={businessName}
     className="brand-logo"
   />
